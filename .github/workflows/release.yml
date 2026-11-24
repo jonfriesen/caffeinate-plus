@@ -1,0 +1,39 @@
+# Tags and releases the version in plugin.toml, so GitHub releases always match
+# the manifest. Bump `version`, push to main, and v<version> is created with
+# generated notes. A version that is already released is skipped.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - plugin.toml
+      - .github/workflows/release.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tag and release the manifest version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(sed -n 's/^version[[:space:]]*=[[:space:]]*"\(.*\)"[[:space:]]*$/\1/p' plugin.toml | head -n1)
+          if ! printf '%s' "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'; then
+            echo "::error file=plugin.toml::version '$version' is not semver"
+            exit 1
+          fi
+          tag="v$version"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "$tag is already released"
+            exit 0
+          fi
+          prerelease=()
+          case "$version" in *-*) prerelease=(--prerelease) ;; esac
+          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --generate-notes "${prerelease[@]}"

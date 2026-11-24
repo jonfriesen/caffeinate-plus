@@ -1,0 +1,5 @@
+# Left out of `git archive`, so an archive of a release tag is exactly the
+# plugin folder the community-plugins repo takes.
+.github export-ignore
+.gitattributes export-ignore
+assets/thumbnail.png export-ignore
