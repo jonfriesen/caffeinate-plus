@@ -316,7 +316,8 @@ local function handle(action, arg)
     if mins and mins == mins and math.abs(mins) < math.huge then
       if endsAt == nil and mins > 0 then
         -- Starting a timer turns caffeine on: read its current state first, as
-        -- `for` does, so caffeine that was already on stays someone else's.
+        -- `for` does, so the timer records whether it took over caffeine that was
+        -- already on, and Cancel timer can hand it back.
         refresh(function()
           addMinutes(mins)
         end)
