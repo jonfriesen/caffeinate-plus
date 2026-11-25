@@ -90,4 +90,4 @@ noctalia msg plugin jonfriesen/caffeinate-plus:service all status         # writ
 
 ## License
 
-Apache-2.0. The original Caffeine Spoon is by Chris Jones and contributors (MIT). The lid inhibitor follows [bagusk99/super-caffeine](https://github.com/noctalia-dev/community-plugins/tree/main/super-caffeine) (MIT).
+MIT. The timer, session and ownership logic is ported from my changes to the Caffeine Spoon. The original Spoon is by Chris Jones and Caffeine contributors (MIT), and their copyright notice is kept in `LICENSE`. The lid inhibitor follows [bagusk99/super-caffeine](https://github.com/noctalia-dev/community-plugins/tree/main/super-caffeine) (MIT).

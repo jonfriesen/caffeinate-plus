@@ -7,6 +7,9 @@
 -- asked is left alone by timer expiry, screen lock and plugin disable. Only an
 -- explicit "disable" turns it off regardless. The built-in caffeine holds a
 -- logind idle inhibitor (who=noctalia, why=Caffeine), which is how we read it.
+--
+-- Derived from the Caffeine Spoon by Chris Jones and Caffeine contributors
+-- (MIT); the timer and session logic are Jon Friesen's. See LICENSE.
 
 local C = require("./common.luau")
 
