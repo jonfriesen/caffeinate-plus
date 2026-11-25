@@ -259,7 +259,15 @@ local function handle(action, arg)
   elseif action == "add" then
     local mins = tonumber(arg)
     if mins and mins == mins and math.abs(mins) < math.huge then
-      addMinutes(mins)
+      if endsAt == nil and mins > 0 then
+        -- Starting a timer turns caffeine on: read its current state first, as
+        -- `for` does, so caffeine that was already on stays someone else's.
+        refresh(function()
+          addMinutes(mins)
+        end)
+      else
+        addMinutes(mins)
+      end
     end
   elseif action == "cancel-timer" then
     cancelTimer()
